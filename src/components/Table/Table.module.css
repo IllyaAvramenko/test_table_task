@@ -1,0 +1,47 @@
+.table {
+   width: 100%;
+   font-size: 12px;
+}
+
+.table__row {
+   display: flex;
+   min-height: 20px;
+}
+
+.table__cell {
+   position: relative;
+   cursor: pointer;
+   border: 1px solid black;
+   text-align: center;
+   min-width: 45px;
+}
+
+.fill {
+   position: absolute;
+   left: 0;
+   top: 0;
+   height: 21px;
+   z-index: -1;
+   background-color: blueviolet;
+}
+
+.table__sum {
+   border: 1px solid red;
+   text-align: center;
+   min-width: 35px;
+}
+
+.table__mid {
+   display: flex;
+   margin: 0px 55px;
+}
+
+.table__mid span {
+   border: 1px solid greenyellow;
+   text-align: center;
+   min-width: 45px;
+}
+
+.active {
+   background-color: greenyellow;
+}
