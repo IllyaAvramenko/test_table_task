@@ -5,3 +5,4 @@ export const selectCurrentKey = (state: AppStateType) => state.table.currentMatr
 export const selectCurrentPercentRow = (state: AppStateType) => state.table.currentPercentRow
 export const selectClosestElements = (state: AppStateType) => state.table.closestElements
 export const selectX = (state: AppStateType) => state.table.x
+export const selectCurrentCellIndexes = (state: AppStateType) => state.table.currentCellIndexes

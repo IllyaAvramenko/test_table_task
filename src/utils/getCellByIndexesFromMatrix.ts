@@ -1,5 +1,6 @@
-import { ICell, MatrixType } from "../redux/Table/tableReducer"
-import { getMapKeyByIndex } from "./getMapKeyByIndex"
+import { ICell } from '../types/CellInterface'
+import { MatrixType } from '../types/MatrixType'
+import { getMapKeyByIndex } from './getMapKeyByIndex'
 
 export const getCellByIndexesInMatrix = (matrix: MatrixType, m: number, n: number): ICell | undefined => {
    const M = getMapKeyByIndex(matrix, m)  // Key of Map

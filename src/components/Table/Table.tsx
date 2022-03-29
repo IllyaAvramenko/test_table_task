@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from "react"
+import React, { useEffect } from "react"
 import s from './Table.module.css';
+import { Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { getMapKeyByIndex } from "../../utils/getMapKeyByIndex";
@@ -9,7 +10,7 @@ import { actions, addRow, deleteRow, fireClosestCells, incrementAmount, showPerc
 import { selectClosestElements, selectCurrentKey, selectCurrentPercentRow, selectTable } from "../../redux/Table/tableSelectors";
 import { getCellByIndexesInMatrix } from "../../utils/getCellByIndexesFromMatrix";
 
-export const Table: React.FC = React.memo(() => {
+const Table: React.FC = React.memo(() => {
    const dispatch = useDispatch()
 
    const { matrix, size, sumRows, midColumns } = useSelector(selectTable)
@@ -41,17 +42,23 @@ export const Table: React.FC = React.memo(() => {
    }
 
    const onFireClosestCells = (m: number, n: number) => {
+      dispatch(actions.setCurrentCellIndexes(m, n))
       dispatch(fireClosestCells(m, n))
    }
 
    const clearClosestCells = () => {
       dispatch(actions.setClosestElements([]))
    }
+
+   const onCreateNewTable = () => {
+      dispatch(actions.deleteTable())
+   }
    
-   if (!matrix) return <div></div>
+   if (!matrix) return <Redirect to='/form' />
    
    return (
       <div className={s.table}>
+         <button onClick={onCreateNewTable}>Create new table</button>
          <button onClick={onAddRow} >Add row</button>
          
          {M.map((m, i) => {
@@ -108,3 +115,5 @@ export const Table: React.FC = React.memo(() => {
       </div>
    )
 });
+
+export default Table

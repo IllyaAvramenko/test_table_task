@@ -1,7 +1,8 @@
 import { BaseThunkType, InferActionsTypes } from "../store"
 import { uid } from '../../utils/uid'
 import { getRandomInt } from "../../utils/randomInt";
-import { ICell, MatrixType } from "./tableReducer";
+import { MatrixType } from "../../types/MatrixType";
+import { ICell } from '../../types/CellInterface'
 import { selectTable, selectX } from "./tableSelectors";
 import { getMapKeyByIndex } from "../../utils/getMapKeyByIndex";
 import { findClosestElement } from "../../utils/findClosestElement";
@@ -31,6 +32,14 @@ export const actions = {
    setX: (x: number) => ({
       type: 'TEST/TASK/SET_X',
       payload: { x }
+   } as const),
+   deleteTable: () => ({
+      type: 'TEST/TASK/DELETE_TABLE'
+   } as const),
+
+   setCurrentCellIndexes: (m: number, n: number) => ({
+      type: 'TEST/TASK/SET_CURRENT_CELL_INDEXES',
+      payload: { cellIndexes: { m, n } }
    } as const)
 }
 
@@ -66,6 +75,7 @@ export const incrementAmount = (m: number, n: number): ThunkType => async (dispa
          matrix.get(M)?.set(N, newCell)
          
          dispatch(setTable(matrix))
+         dispatch(fireClosestCells(m, n))
       }
    }
 }
@@ -139,9 +149,10 @@ export const fireClosestCells = (m: number, n: number): ThunkType => async (disp
          
          const closestNumbers: number[] = []
          for (let i = 0; i <= x; i++) {
+            if (i === 0) continue
+            if (allNumbers.length === 0) break
             const closest = findClosestElement(allNumbers, cell.amount)
             allNumbers = allNumbers.filter(el => el !== closest)
-            if (i === 0) continue
             closestNumbers.push(closest)
          }
          dispatch(actions.setClosestElements(closestNumbers))
@@ -193,7 +204,6 @@ const countColumnMid = (matrix: MatrixType): Map<number, number> => {
       
       count.set(i, (columnSum / matrix.size).toFixed(1))
    }
-
 
    return count
 }

@@ -1,22 +1,31 @@
+import { ITable } from "../../types/TableInterface"
 import { TableActionsType } from "./tableActions"
 
-const initialState = {
-   table: {
-      matrix: null as null | MatrixType,
-      size: {
-         m: 0 as number,
-         n: 0 as number
-      },
-      sumRows: new Map() as Map<number, number>,
-      midColumns: new Map() as Map<number, number>,
-   },
-   x: 0,
-   currentMatrixKey: -1 as number,
-   currentPercentRow: new Map() as Map<number, string>,
-   closestElements: [] as Array<number>
+type InitialStateType = {
+   table: ITable,
+   x: number,
+   currentMatrixKey: number,
+   currentPercentRow: Map<number, string>,
+   closestElements: Array<number>,
+   currentCellIndexes: { m: number, n: number }
 }
 
-type InitialStateType = typeof initialState
+const initialState: InitialStateType = {
+   table: {
+      matrix: null,
+      size: {
+         m: 0,
+         n: 0
+      },
+      sumRows: new Map(),
+      midColumns: new Map(),
+   },
+   x: 0,
+   currentMatrixKey: -1,
+   currentPercentRow: new Map(),
+   closestElements: [],
+   currentCellIndexes: { m: 0, n: 0 } 
+}
 
 export const tableReducer = (state = initialState, action: TableActionsType): InitialStateType => {
    switch(action.type) {
@@ -40,15 +49,26 @@ export const tableReducer = (state = initialState, action: TableActionsType): In
          return { ...state, currentPercentRow: action.payload.row }
 
       case 'TEST/TASK/SET_CLOSEST_ELEMENTS':
-         return { ...state, closestElements: [ ...action.payload.arr ] }
+         return { ...state, closestElements: action.payload.arr }
       
       case 'TEST/TASK/SET_X':
          return { ...state, x: action.payload.x }
+
+      case 'TEST/TASK/DELETE_TABLE':
+         return { 
+            ...state,
+            table: {
+               matrix: null,
+               sumRows: new Map(),
+               midColumns: new Map(),
+               size: { m: 0, n: 0 }
+            }   
+         }
+
+      case 'TEST/TASK/SET_CURRENT_CELL_INDEXES':
+         return { ...state, currentCellIndexes: action.payload.cellIndexes }
 
       default: 
          return state
    }
 }
-
-export type MatrixType = Map<number, Map<number, ICell>>
-export interface ICell {id: string, amount: number}

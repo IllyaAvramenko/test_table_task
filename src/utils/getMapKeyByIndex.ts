@@ -1,6 +1,4 @@
-export const getMapKeyByIndex = (map: Map<any, any> | undefined, index: number): any => {
-   if (map) {
-      return Array.from(map?.keys())[index]
-   } 
-   return false
+export const getMapKeyByIndex = (map: Map<number, any> | undefined, index: number): number  => {
+   if (map) return Array.from(map?.keys())[index]
+   return -1
 }

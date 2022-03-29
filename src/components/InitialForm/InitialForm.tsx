@@ -1,17 +1,19 @@
 import React from "react";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { generateTable } from "../../redux/Table/tableActions";
 
-export const InitialForm: React.FC = React.memo(() => {
-
+const InitialForm: React.FC = React.memo(() => {
    const dispatch = useDispatch()
+   const history = useHistory()
 
    const [m, setM] = React.useState<number>(0)
    const [n, setN] = React.useState<number>(0)
    const [x, setX] = React.useState<number>(0)
 
-   const onSubmit = () => {
-      dispatch(generateTable(m, n, x))
+   const onSubmit = async () => {
+      await dispatch(generateTable(m, n, x))
+      history.push('/table')
    }
 
    return (
@@ -39,3 +41,5 @@ export const InitialForm: React.FC = React.memo(() => {
       </form>
    )
 })
+
+export default InitialForm

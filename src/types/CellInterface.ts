@@ -1,0 +1,1 @@
+export interface ICell {id: string, amount: number}
